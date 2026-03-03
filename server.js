@@ -13,7 +13,7 @@ async function getOPGGData(summoner) {
     const { data } = await axios.get(url);
     const $ = cheerio.load(data);
 
-    // New OP.GG layout selectors
+    // New OP.GG layout selectors (2025–2026)
     const rank = $('div.tier').first().text().trim() || "Unranked";
     const lp = $('span.lp').first().text().trim() || "0 LP";
 
@@ -22,6 +22,7 @@ async function getOPGGData(summoner) {
 
     return { summoner, rank, lp, wins, losses };
 }
+
 
 
 app.get("/api/player", async (req, res) => {
