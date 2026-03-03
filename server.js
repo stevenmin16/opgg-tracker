@@ -13,13 +13,16 @@ async function getOPGGData(summoner) {
     const { data } = await axios.get(url);
     const $ = cheerio.load(data);
 
-    const rank = $('div.ranking-tier').first().text().trim() || "Unranked";
-    const lp = $('div.lp').first().text().trim() || "0 LP";
-    const wins = $('span.win').first().text().trim() || "0W";
-    const losses = $('span.lose').first().text().trim() || "0L";
+    // New OP.GG layout selectors
+    const rank = $('div.tier').first().text().trim() || "Unranked";
+    const lp = $('span.lp').first().text().trim() || "0 LP";
+
+    const wins = $('span.wins').first().text().trim() || "0W";
+    const losses = $('span.losses').first().text().trim() || "0L";
 
     return { summoner, rank, lp, wins, losses };
 }
+
 
 app.get("/api/player", async (req, res) => {
     try {
