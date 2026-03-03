@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OP.GG Tracker</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>OP.GG Tracker</h1>
+    <p>Tracking: McLuffy#NA1, The Art of Kinku#Yes, For Fun Acc#FFA</p>
+
+    <div id="results">Loading...</div>
+
+    <script>
+        const accounts = [
+            "McLuffy#NA1",
+            "The Art of Kinku#Yes",
+            "For Fun Acc#FFA"
+        ];
+
+        async function fetchPlayer(name) {
+            const res = await fetch(`/api/player?name=${encodeURIComponent(name)}`);
+            return res.json();
+        }
+
+        async function load() {
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = "Loading...";
+
+            const players = await Promise.all(accounts.map(fetchPlayer));
+
+            resultsDiv.innerHTML = players.map(p => `
+                <div class="card">
+                    <h2>${p.summoner}</h2>
+                    <p><strong>Rank:</strong> ${p.rank}</p>
+                    <p><strong>LP:</strong> ${p.lp}</p>
+                    <p><strong>Wins:</strong> ${p.wins}</p>
+                    <p><strong>Losses:</strong> ${p.losses}</p>
+                </div>
+            `).join("");
+        }
+
+        load();
+    </script>
+</body>
+</html>
