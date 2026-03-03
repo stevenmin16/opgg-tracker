@@ -12,9 +12,9 @@
 
     <script>
         const accounts = [
-            "McLuffy#NA1",
-            "The Art of Kinku#Yes",
-            "For Fun Acc#FFA"
+            "McLuffy #NA1",
+            "The Art of Kinku #Yes",
+            "For Fun Acc #FFA"
         ];
 
         async function fetchPlayer(name) {
@@ -35,6 +35,7 @@
                     <p><strong>LP:</strong> ${p.lp}</p>
                     <p><strong>Wins:</strong> ${p.wins}</p>
                     <p><strong>Losses:</strong> ${p.losses}</p>
+                    <p><strong>Winrate:</strong> ${p.winrate}</p>
                 </div>
             `).join("");
         }
