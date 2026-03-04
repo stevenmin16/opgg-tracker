@@ -9,7 +9,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 async function getOPGGData(summoner) {
     const encoded = encodeURIComponent(summoner);
-    const url = `https://op.gg/api/v1.0/internal/bypass/summoners/na/${encoded}`;
+    const url = `https://op.gg/api/v2/lol/summoners/na/${encoded}`;
 
     const { data } = await axios.get(url, {
         headers: {
@@ -19,7 +19,7 @@ async function getOPGGData(summoner) {
         }
     });
 
-    const ranked = data?.data?.league_stats?.find(
+    const ranked = data?.summoner?.league_stats?.find(
         x => x.queue_info?.queue_type === "RANKED_SOLO_5x5"
     );
 
@@ -33,6 +33,22 @@ async function getOPGGData(summoner) {
             winrate: "0%"
         };
     }
+
+    const wins = ranked.wins;
+    const losses = ranked.losses;
+    const total = wins + losses;
+    const winrate = total > 0 ? Math.round((wins / total) * 100) + "%" : "0%";
+
+    return {
+        summoner,
+        rank: ranked.tier_info.tier,
+        lp: `${ranked.tier_info.lp} LP`,
+        wins,
+        losses,
+        winrate
+    };
+}
+
 
     const wins = ranked.wins;
     const losses = ranked.losses;
